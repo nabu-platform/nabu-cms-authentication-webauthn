@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<node artifactManager="be.nabu.eai.module.services.vm.VMServiceManager" created="2026-10-30T12:42:31+01:00" lastModified="2026-11-12T17:30:23.964+01:00" leaf="true" version="9">
+    <environmentId>ares</environmentId>
+    <hidden>false</hidden>
+    <locked>false</locked>
+    <properties/>
+    <references>nabu.cms.authentication.webauthn.crud.ceremony.services.create</references>
+    <references>nabu.cms.authentication.webauthn.crud.credential.types.output</references>
+    <references>java.util.Date</references>
+    <references>nabu.utils.Date.now</references>
+    <references>nabu.utils.Server.uuid</references>
+    <references>nabu.cms.authentication.webauthn.crud.ceremony.types.createOutput</references>
+    <references>nabu.cms.authentication.webauthn.utils.getPolicy</references>
+    <references>java.util.UUID</references>
+    <references>nabu.utils.Server.password</references>
+    <references>nabu.cms.authentication.webauthn.crud.credential.services.list</references>
+    <references>java.lang.String</references>
+    <references>nabu.cms.authentication.webauthn.configuration.policy</references>
+    <references>nabu.utils.Date.increment</references>
+</node>

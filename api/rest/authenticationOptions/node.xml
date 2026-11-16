@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<node artifactManager="be.nabu.eai.module.rest.provider.RESTServiceManager" created="2026-10-30T09:45:01.547+01:00" lastModified="2026-10-30T12:52:34.997+01:00" leaf="true" version="7">
+    <environmentId>ares</environmentId>
+    <hidden>false</hidden>
+    <locked>false</locked>
+    <properties/>
+    <references>nabu.cms.authentication.webauthn.api.rest.optionsInput</references>
+    <references>nabu.web.application.Services.information</references>
+    <references>nabu.cms.authentication.webauthn.services.authenticationOptions</references>
+    <references>nabu.cms.authentication.webauthn.configuration.policy</references>
+    <references>java.lang.String</references>
+    <references>nabu.cms.authentication.webauthn.api.rest.optionsOutput</references>
+</node>

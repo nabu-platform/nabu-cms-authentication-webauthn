@@ -1,0 +1,27 @@
+<structure name="pipeline">
+	<structure name="input">
+		<field name="ceremonyId" type="java.util.UUID"/>
+		<field name="responseJson" type="java.lang.String"/>
+		<field name="applicationId" type="java.lang.String"/>
+		<field minOccurs="0" name="password" type="java.lang.String"/>
+		<field name="requireActiveAccount" type="java.lang.Boolean"/>
+		<field name="origin" type="java.lang.String"/>
+	</structure>
+	<structure name="output">
+		<field name="credentialId" type="java.lang.String"/>
+	</structure>
+	<structure definition="nabu.cms.authentication.webauthn.configuration.policy" name="policy"/>
+	<field name="contextId" type="java.lang.String"/>
+	<structure definition="nabu.cms.core.types.emodel.core.User" name="identity"/>
+	<field name="proofValid" type="java.lang.Boolean"/>
+	<field name="now" type="java.util.Date"/>
+	<structure definition="nabu.cms.authentication.webauthn.crud.ceremony.types.output" name="ceremony"/>
+	<field name="ownerId" type="java.util.UUID"/>
+	<field maxOccurs="unbounded" minOccurs="0" name="realms" type="java.lang.String"/>
+	<structure definition="nabu.cms.core.types.emodel.core.User" name="active"/>
+	<field name="canLogin" type="java.lang.Boolean"/>
+	<structure definition="nabu.utils.types.WebAuthnResult" name="verified"/>
+	<field name="id" type="java.util.UUID"/>
+	<field name="consumedRows" type="java.lang.Long"/>
+	<structure definition="nabu.cms.authentication.webauthn.crud.credential.types.createOutput" name="created"/>
+</structure>

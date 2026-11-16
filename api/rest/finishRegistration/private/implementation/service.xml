@@ -1,0 +1,46 @@
+<sequence id="91de89e0ffa440b3ad709cf0ea484f27">
+	<throw id="f133aeb04baf46ae9dd58ab662905042"
+		label="true"
+		message="Registration temporarily unavailable pending verified enrollment binding"/>
+	<throw id="ef9a62cca89d4b7e984cd8d4003fc79b"
+		label="input/content/password == null"
+		message="Password proof is required for REST registration"/>
+	<map id="ba80be594ae94b0994e8b30e39c2e17f">
+		<invoke id="35a8d7a968ca4ac08763f77c0ec83e37"
+			resultName="resultWebauthnFinishedRegistration"
+			serviceId="nabu.cms.authentication.webauthn.services.finishRegistration"
+			x="25"
+			y="25">
+			<link id="d191cd9850ed4dd3bbd0e99e929cc233">
+				<from>input/webApplicationId</from>
+				<to>applicationId</to>
+			</link>
+			<link id="38894dd524044c2eac602561727a8c2e">
+				<from>input/origin</from>
+				<to>origin</to>
+			</link>
+			<link id="19777ec878514b4884d270c2c8acc324">
+				<from>input/content/password</from>
+				<to>password</to>
+			</link>
+			<link id="abaf4faab59c4fb587d5404f260bd4cb"
+				fixedValue="true">
+				<from>true</from>
+				<to>requireActiveAccount</to>
+			</link>
+			<link id="0d9f1a13abfe417d9915378fd67f2a52">
+				<from>input/content/ceremonyId</from>
+				<to>ceremonyId</to>
+			</link>
+			<link id="bf7d36fa54e94643a66e69d022030c4c">
+				<from>input/content/responseJson</from>
+				<to>responseJson</to>
+			</link>
+		</invoke>
+		<link id="5383610b623441e8881e2854e155f0e9"
+			mask="true">
+			<from>resultWebauthnFinishedRegistration</from>
+			<to>output/content</to>
+		</link>
+	</map>
+</sequence>

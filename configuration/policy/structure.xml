@@ -1,0 +1,6 @@
+<structure name="policy">
+	<field comment="Optional RP DNS override; otherwise derived from the trusted application host." name="rpId" type="java.lang.String"/>
+	<field comment="Optional exact HTTPS origin overrides; otherwise derived from application host and aliases." maxOccurs="unbounded" name="origins" type="java.lang.String"/>
+	<field comment="Optional ceremony timeout override (1 to 300 seconds); default 120." maxInclusive="300" minInclusive="1" name="timeoutSeconds" type="java.lang.Integer"/>
+	<field comment="Optional verification override; false explicitly disables the UV requirement." name="requireUserVerification" type="java.lang.Boolean"/>
+</structure>

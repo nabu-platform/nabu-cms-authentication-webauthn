@@ -1,0 +1,85 @@
+<sequence id="f56c1c7abf624d84a9fd6b7dac16ed4d">
+	<throw id="b14dbf3370944317948766293020d878"
+		label="input/credentials == null || input/credentials/type != &quot;webauthn&quot; || input/credentials/name == null || input/credentials/password == null || input/realm == null"
+		message="Invalid WebAuthn credentials"/>
+	<map id="ed27dc8d77cd46b2b97aacccec6b0a76">
+		<invoke id="7c72bde01b624e368521b1b94687391d"
+			resultName="resultWebauthnApplication"
+			serviceId="nabu.web.application.Services.current"
+			x="25"
+			y="25">
+		</invoke>
+		<invoke id="bfa41cc5dcb744648b33dfc3478762e9"
+			resultName="resultWebauthnEnvelope"
+			serviceId="nabu.utils.WebAuthn.parseAssertionEnvelope"
+			x="25"
+			y="110">
+			<link id="71137994ea0d4dafadc5a29545cc9d21">
+				<from>input/credentials/password</from>
+				<to>secret</to>
+			</link>
+		</invoke>
+		<link id="8282af062fe44172bf46982b33849307"
+			mask="true">
+			<from>resultWebauthnEnvelope/envelope</from>
+			<to>assertionEnvelope</to>
+		</link>
+		<link id="30a7462dd9c74f75b1fb9e65d2d09b50">
+			<from>resultWebauthnApplication/current/id</from>
+			<to>applicationId</to>
+		</link>
+	</map>
+	<throw id="5ddbc2b499004036b9853845f2e27019"
+		label="applicationId == null || assertionEnvelope == null || assertionEnvelope/ceremonyId == null || assertionEnvelope/credentialId == null || assertionEnvelope/responseJson == null"
+		message="Invalid WebAuthn assertion envelope"/>
+	<map id="8b0f3a9020094749be0a37be1954a588">
+		<invoke id="7d1f67f54a8046368a1392ab00c04e10"
+			resultName="resultWebauthnAssertion"
+			serviceId="nabu.cms.authentication.webauthn.services.finishAssertion"
+			x="25"
+			y="25">
+			<link id="638cf366cc704435b784c295bd9b5c70">
+				<from>input/credentials/name</from>
+				<to>alias</to>
+			</link>
+			<link id="7b5cac1c6b2041a7a6f2043db4a26968">
+				<from>input/realm</from>
+				<to>realm</to>
+			</link>
+			<link id="cdc2ccca9ec0447b9e5645e9f0fac80d">
+				<from>applicationId</from>
+				<to>applicationId</to>
+			</link>
+			<link id="2e1841723c734fb094b2fd777c9fc67a">
+				<from>assertionEnvelope/ceremonyId</from>
+				<to>ceremonyId</to>
+			</link>
+			<link id="cf1b6ab7f72b49f892d3794f5390b094">
+				<from>assertionEnvelope/credentialId</from>
+				<to>credentialId</to>
+			</link>
+			<link id="3ee83d1cc02543918fbec4339911c7e6">
+				<from>assertionEnvelope/responseJson</from>
+				<to>responseJson</to>
+			</link>
+		</invoke>
+		<link id="9ea3ae3c38364dfb90025cd64d355e61">
+			<from>resultWebauthnAssertion/ownerId</from>
+			<to>output/token/authenticationId</to>
+		</link>
+		<link id="817aec7090d5455bb16a588b52afb07c">
+			<from>resultWebauthnAssertion/userAlias</from>
+			<to>output/token/name</to>
+		</link>
+		<link id="17f1f1083d2f4b7b88743de45626de2b">
+			<from>resultWebauthnAssertion/userRealm</from>
+			<to>output/token/realm</to>
+		</link>
+	</map>
+	<map id="9f79d9555539454db7e8e9ca44567551">
+		<link id="ff197e4f61df44b28296b2026139a486">
+			<from>input/credentials</from>
+			<to>output/token/credentials[0]</to>
+		</link>
+	</map>
+</sequence>

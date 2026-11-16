@@ -1,0 +1,5 @@
+<structure name="credentialSummary">
+	<field name="id" type="java.util.UUID"/>
+	<field name="created" type="java.util.Date"/>
+	<field minOccurs="0" name="lastUsed" type="java.util.Date"/>
+</structure>

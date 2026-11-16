@@ -1,0 +1,5 @@
+<structure name="assertionEnvelope">
+	<field name="ceremonyId" type="java.util.UUID"/>
+	<field name="credentialId" type="java.lang.String"/>
+	<field name="responseJson" type="java.lang.String"/>
+</structure>

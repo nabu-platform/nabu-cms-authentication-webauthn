@@ -1,0 +1,3 @@
+<structure name="credentialOutput">
+	<structure definition="nabu.cms.authentication.webauthn.types.credentialSummary" maxOccurs="unbounded" minOccurs="0" name="credentials"/>
+</structure>

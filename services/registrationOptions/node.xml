@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<node artifactManager="be.nabu.eai.module.services.vm.VMServiceManager" created="2026-10-30T12:42:31.139+01:00" lastModified="2026-11-12T17:30:47.808+01:00" leaf="true" version="11">
+    <environmentId>ares</environmentId>
+    <hidden>false</hidden>
+    <locked>false</locked>
+    <properties/>
+    <references>nabu.cms.core.services.context.getApplication</references>
+    <references>nabu.cms.authentication.webauthn.services.beginCeremony</references>
+    <references>java.util.Date</references>
+    <references>nabu.cms.core.services.user.getCurrent</references>
+    <references>nabu.cms.authentication.webauthn.utils.getPolicy</references>
+    <references>nabu.cms.core.database.user.selectActiveByAlias2</references>
+    <references>java.util.UUID</references>
+    <references>nabu.cms.core.types.emodel.core.User</references>
+    <references>java.lang.Integer</references>
+    <references>nabu.cms.authentication.webauthn.crud.credential.services.list</references>
+    <references>nabu.cms.core.v2.services.user.getAllowedRealms</references>
+    <references>java.lang.Boolean</references>
+    <references>java.lang.String</references>
+    <references>nabu.cms.authentication.webauthn.configuration.policy</references>
+    <references>nabu.cms.core.services.user.canLoginAs</references>
+    <references>nabu.cms.core.utils.security.password.validate</references>
+</node>

@@ -1,0 +1,8 @@
+<structure name="parameter">
+	<field name="now" type="java.util.Date"/>
+	<field name="id" type="java.util.UUID"/>
+	<field name="purpose" type="java.lang.String"/>
+	<field name="ownerId" type="java.util.UUID"/>
+	<field name="contextId" type="java.lang.String"/>
+	<field name="rpId" type="java.lang.String"/>
+</structure>

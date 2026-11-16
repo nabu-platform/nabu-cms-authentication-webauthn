@@ -1,0 +1,289 @@
+<sequence id="ff9bba62b2ea476389ccbc4889584db4">
+	<map id="f83dea1ef5db478c920d4002daf03f18">
+		<invoke id="d8ee338d844042fb9383735683cd1180"
+			resultName="resultPolicy"
+			serviceId="nabu.cms.authentication.webauthn.utils.getPolicy"
+			x="25"
+			y="25">
+			<link id="580fa03822ba4bfbb102cea162fc08aa">
+				<from>input/origin</from>
+				<to>origin</to>
+			</link>
+			<link id="51fdbb3f7e22425e8a459049227acdd1">
+				<from>input/applicationId</from>
+				<to>applicationId</to>
+			</link>
+		</invoke>
+		<link id="711ba96b9301415489c28df91f4b0936">
+			<from>resultPolicy/configuration</from>
+			<to>policy</to>
+		</link>
+	</map>
+	<throw id="e18a356050f64d9c9905c0a02a88e6f5"
+		label="(input/purpose != &quot;assertion&quot; &amp;&amp; input/purpose != &quot;registration&quot;) || input/alias == null || input/realm == null || input/contextId == null || input/ownerId == null"
+		message="Invalid WebAuthn ceremony request"/>
+	<map id="246d26a9fde2401bab805e05d847365c">
+		<invoke id="8eda9c52092241cebf4f3ca511cdb695"
+			resultName="resultNow"
+			serviceId="nabu.utils.Date.now"
+			x="25"
+			y="25">
+		</invoke>
+		<invoke id="b56a707cf4b84a6ebe552d120a930f50"
+			resultName="resultId"
+			serviceId="nabu.utils.Server.uuid"
+			x="25"
+			y="110">
+		</invoke>
+		<invoke id="fa612238f2ba4fc4bef644132712d425"
+			resultName="resultChallengePrefix"
+			serviceId="nabu.utils.Server.password"
+			x="25"
+			y="195">
+			<link id="2d5f530401644c3ca0161f8450726b02"
+				fixedValue="true">
+				<from>42</from>
+				<to>length</to>
+			</link>
+			<link id="2ffba59c07394bda860780c6d620d227"
+				fixedValue="true">
+				<from>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_</from>
+				<to>allowedCharacters</to>
+			</link>
+		</invoke>
+		<invoke id="cc66df0bf2bc41f2a4e6c052bb0545b4"
+			resultName="resultChallengeSuffix"
+			serviceId="nabu.utils.Server.password"
+			x="25"
+			y="280">
+			<link id="fd288e7d5ced4793bd6829d431feb675"
+				fixedValue="true">
+				<from>1</from>
+				<to>length</to>
+			</link>
+			<link id="f97aa59197684187b4c629e7e1321e78"
+				fixedValue="true">
+				<from>AEIMQUYcgkosw048</from>
+				<to>allowedCharacters</to>
+			</link>
+		</invoke>
+		<invoke id="71e3d1754eb54723a6eb85a02a939fac"
+			resultName="resultHandlePrefix"
+			serviceId="nabu.utils.Server.password"
+			x="25"
+			y="365">
+			<link id="ea7cc47bc8de48959ec3a3071f3f35ea"
+				fixedValue="true">
+				<from>42</from>
+				<to>length</to>
+			</link>
+			<link id="454bb570cd45452dbfa153026812468a"
+				fixedValue="true">
+				<from>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_</from>
+				<to>allowedCharacters</to>
+			</link>
+		</invoke>
+		<invoke id="fe4b04e121f949b48a1608323b658847"
+			resultName="resultHandleSuffix"
+			serviceId="nabu.utils.Server.password"
+			x="25"
+			y="450">
+			<link id="31d440b097c040aa8cde4d5e128f6ca2"
+				fixedValue="true">
+				<from>1</from>
+				<to>length</to>
+			</link>
+			<link id="a4615782654b4948bd0061f714268057"
+				fixedValue="true">
+				<from>AEIMQUYcgkosw048</from>
+				<to>allowedCharacters</to>
+			</link>
+		</invoke>
+		<link id="8a13965b60ca4367a68fe9125e3d8a0a">
+			<from>resultNow/date</from>
+			<to>now</to>
+		</link>
+		<link id="53ebcb743c3542ea9f0efa88a6cd6edd">
+			<from>resultId/uuid</from>
+			<to>id</to>
+		</link>
+		<link id="999edab2a6ef4dfb9ce2326ea7633735">
+			<from>resultChallengePrefix/password</from>
+			<to>challenge</to>
+		</link>
+		<link id="173c9d142c564e39b5417719e31a6545">
+			<from>resultHandlePrefix/password</from>
+			<to>handle</to>
+		</link>
+		<link id="5a227ae4fb114f49b47bad148fee487d">
+			<from>resultChallengeSuffix/password</from>
+			<to>challengeSuffix</to>
+		</link>
+		<link id="cd1f08604b95403695e6fd7dcbcbb55b">
+			<from>resultHandleSuffix/password</from>
+			<to>handleSuffix</to>
+		</link>
+	</map>
+	<map id="26dd09c7990144c5a80584af0d9c0654">
+		<link id="430f2390773945fa9c0b340bb3dc44c1"
+			fixedValue="true">
+			<from>=challenge + challengeSuffix</from>
+			<to>challenge</to>
+		</link>
+		<link id="af28994be4f64bb48e162a0bdce9c4d6"
+			fixedValue="true">
+			<from>=handle + handleSuffix</from>
+			<to>handle</to>
+		</link>
+	</map>
+	<map id="cd1f5d7d46354fc0a630380618d844fd">
+		<invoke id="0b02253982f74634ad9cec3a0b1154f5"
+			resultName="resultExpires"
+			serviceId="nabu.utils.Date.increment"
+			x="25"
+			y="25">
+			<link id="d79ae2cb9de0428298b0fceac13688d1">
+				<from>now</from>
+				<to>start</to>
+			</link>
+			<link id="d577d9d2dec5404c8c520fcf805676c4">
+				<from>policy/timeoutSeconds</from>
+				<to>increment</to>
+			</link>
+			<link id="7280e24811974b1a9a66ae839239d400"
+				fixedValue="true">
+				<from>SECONDS</from>
+				<to>unit</to>
+			</link>
+		</invoke>
+		<link id="ccb6c23440d54d7dbdf97682e6190fe0">
+			<from>resultExpires/date</from>
+			<to>expires</to>
+		</link>
+	</map>
+	<sequence id="1b270727a7c84bedb5f46843368195f8"
+		label="input/purpose == &quot;registration&quot;">
+		<map id="f9a43de6d8e7446993c2c5fd756b93c4">
+			<invoke id="32e7910e36454e9c97a6387182e313a5"
+				resultName="resultExistingCredentials"
+				serviceId="nabu.cms.authentication.webauthn.crud.credential.services.list"
+				x="25"
+				y="25">
+				<link id="db5e487d133c496589b66278b20f516c">
+					<from>policy/rpId</from>
+					<to>filter/rpId[0]</to>
+				</link>
+				<link id="542abba5cd1f4fb0817b823a06547107">
+					<from>input/ownerId</from>
+					<to>filter/ownerId[0]</to>
+				</link>
+				<link id="69f1a1be18a74644b728085f32064841"
+					fixedValue="true">
+					<from>true</from>
+					<to>filter/active</to>
+				</link>
+				<link id="533c49caedc04b08a85b428eb64ac975"
+					fixedValue="true">
+					<from>false</from>
+					<to>limitToUser</to>
+				</link>
+			</invoke>
+			<link id="05159efaafe344bab3faf0b48090dda7">
+				<from>resultExistingCredentials/results[0]</from>
+				<to>existing</to>
+			</link>
+		</map>
+		<map id="8f20098586d84cb4a24171739e96d894"
+			label="existing != null">
+			<link id="39ab3ae65b3249c895884b36ee185e28">
+				<from>existing/userHandle</from>
+				<to>handle</to>
+			</link>
+		</map>
+	</sequence>
+	<map id="a468b5ed5b554e3eb63ffe59652dc204">
+		<invoke id="5cb12951a39243408d2bf532179c5fe5"
+			resultName="resultCreatedCeremony"
+			serviceId="nabu.cms.authentication.webauthn.crud.ceremony.services.create"
+			x="25"
+			y="25">
+			<link id="37c0926620294d72b5f2ec58d16ce92c">
+				<from>input/ownerId</from>
+				<to>contextId</to>
+			</link>
+			<link id="2d35b8b8e00a44db85635947bd4bff54">
+				<from>id</from>
+				<to>id</to>
+			</link>
+			<link id="8c8b21c475574eaaadf46408c7668f0b">
+				<from>challenge</from>
+				<to>instance/challenge</to>
+			</link>
+			<link id="0e1ec7375cb448c68dc1c8689a9e87c5">
+				<from>handle</from>
+				<to>instance/userHandle</to>
+			</link>
+			<link id="83b8cefecd954d1d9fdee76cc699bd1b">
+				<from>input/purpose</from>
+				<to>instance/purpose</to>
+			</link>
+			<link id="d9744737ef3c43fe971eaeada02afc90">
+				<from>policy/rpId</from>
+				<to>instance/rpId</to>
+			</link>
+			<link id="c81a3d86d33949a9b7d4045b7dcc60c1">
+				<from>input/origin</from>
+				<to>instance/origin</to>
+			</link>
+			<link id="8feeff20b7d24b17bbaae1ba9271f3ef">
+				<from>input/contextId</from>
+				<to>instance/contextId</to>
+			</link>
+			<link id="85237a5e923b499598dfa684010be679">
+				<from>input/realm</from>
+				<to>instance/realm</to>
+			</link>
+			<link id="999396890c164c8aae8a24bf3bd453ae">
+				<from>input/enrollmentIdentityId</from>
+				<to>instance/enrollmentIdentityId</to>
+			</link>
+			<link id="27993211e340455c8e39a364dd8a92de">
+				<from>input/alias</from>
+				<to>instance/authenticationId</to>
+			</link>
+			<link id="258b57aa6b7d432ba0c5755c75556024">
+				<from>now</from>
+				<to>instance/created</to>
+			</link>
+			<link id="a4e3af96c7cd4163b3945d872f767185">
+				<from>expires</from>
+				<to>instance/expires</to>
+			</link>
+		</invoke>
+		<link id="a6149647733d4fafb6c5f0d2aea1666b">
+			<from>resultCreatedCeremony/created</from>
+			<to>created</to>
+		</link>
+	</map>
+	<throw id="7e4aac6b25a345a39b9436f501c21a71"
+		label="created == null"
+		message="WebAuthn ceremony was not stored"/>
+	<map id="e25987a8036a478180243736775a0fe1">
+		<link id="f38a587969fe4d799587e86c1afbf233">
+			<from>id</from>
+			<to>output/ceremonyId</to>
+		</link>
+		<link id="594801c27feb417abe2d5d41f690ed5f">
+			<from>challenge</from>
+			<to>output/challengeValue</to>
+		</link>
+		<link id="be4a2dc80c3745a9bf9618ba289cbb07">
+			<from>handle</from>
+			<to>output/userHandle</to>
+		</link>
+		<link id="e978200625d74a6296e2e60cb50e10a2">
+			<from>expires</from>
+			<to>output/expiresAt</to>
+		</link>
+	</map>
+</sequence>

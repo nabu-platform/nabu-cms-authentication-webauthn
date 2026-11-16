@@ -1,0 +1,6 @@
+<structure interface="be.nabu.eai.authentication.api.TypedAuthenticator.authenticate" name="pipeline">
+	<structure name="input"/>
+	<structure name="output"/>
+	<structure definition="nabu.cms.authentication.webauthn.types.assertionEnvelope" name="assertionEnvelope"/>
+	<field name="applicationId" type="java.lang.String"/>
+</structure>

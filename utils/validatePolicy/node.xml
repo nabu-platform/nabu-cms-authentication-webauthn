@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<node artifactManager="be.nabu.eai.module.services.vm.VMServiceManager" created="2026-10-30T12:42:30.232+01:00" lastModified="2026-11-09T16:18:18.470+01:00" leaf="true" version="13">
+    <environmentId>ares</environmentId>
+    <hidden>false</hidden>
+    <locked>false</locked>
+    <properties/>
+    <references>nabu.utils.String.replace</references>
+    <references>java.lang.Boolean</references>
+    <references>nabu.utils.String.regexGroups</references>
+    <references>nabu.cms.authentication.webauthn.configuration.policy</references>
+    <references>java.lang.String</references>
+</node>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<node artifactManager="be.nabu.eai.module.types.structure.StructureManager" created="2026-10-29T15:18:41.245+01:00" lastModified="2026-11-12T17:30:14.963+01:00" leaf="true" version="5">
+    <environmentId>ares</environmentId>
+    <hidden>false</hidden>
+    <locked>false</locked>
+    <properties/>
+    <references>java.util.UUID</references>
+    <references>java.lang.String</references>
+    <references>nabu.cms.core.types.model.core.User</references>
+    <references>java.util.Date</references>
+</node>

@@ -1,0 +1,25 @@
+<structure name="pipeline">
+	<structure name="input">
+		<field name="applicationId" type="java.lang.String"/>
+		<field name="password" type="java.lang.String"/>
+		<field name="requireActiveAccount" type="java.lang.Boolean"/>
+		<field name="origin" type="java.lang.String"/>
+	</structure>
+	<structure name="output">
+		<field name="ceremonyId" type="java.util.UUID"/>
+		<field name="challenge" type="java.lang.String"/>
+		<field name="rpId" type="java.lang.String"/>
+		<field name="userHandle" type="java.lang.String"/>
+		<field maxOccurs="unbounded" minOccurs="0" name="excludedCredentials" type="java.lang.String"/>
+		<field name="expires" type="java.util.Date"/>
+		<field name="timeout" type="java.lang.Integer"/>
+	</structure>
+	<structure definition="nabu.cms.authentication.webauthn.configuration.policy" name="policy"/>
+	<structure definition="nabu.cms.core.types.emodel.core.User" name="identity"/>
+	<structure definition="nabu.cms.core.types.emodel.core.User" name="active"/>
+	<field name="contextId" type="java.util.UUID"/>
+	<field name="ownerId" type="java.util.UUID"/>
+	<field name="proofValid" type="java.lang.Boolean"/>
+	<field name="canLogin" type="java.lang.Boolean"/>
+	<field maxOccurs="unbounded" minOccurs="0" name="realms" type="java.lang.String"/>
+</structure>

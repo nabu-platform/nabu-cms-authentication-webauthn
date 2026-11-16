@@ -1,0 +1,98 @@
+<sequence id="5e05858747b54d0f95aa4da6ca4a1db3">
+	<map id="9d6e748902ce49fa94eefd6ebf8c0966">
+		<invoke id="ee03d74984f94d45a9aa095c47d38e5b"
+			resultName="resultWebauthnPolicy"
+			serviceId="nabu.cms.authentication.webauthn.utils.getPolicy"
+			x="25"
+			y="25">
+			<link id="88ce06b28b8547bd92c089b10ec929c8">
+				<from>input/applicationId</from>
+				<to>applicationId</to>
+			</link>
+			<link id="565ea4164e0a4acf96b6ba0d0ae9b69d">
+				<from>input/origin</from>
+				<to>origin</to>
+			</link>
+		</invoke>
+		<invoke id="8b3d91a35bfa4e61a5c6c079e6b157e6"
+			resultName="resultWebauthnCurrentUser"
+			serviceId="nabu.cms.core.services.user.getCurrent"
+			x="25"
+			y="110">
+			<link id="a4dd1a9d5aeb45ab8a64d7283db70d5c"
+				fixedValue="true">
+				<from>true</from>
+				<to>mustExist</to>
+			</link>
+		</invoke>
+		<link id="e31b8a3e2a894fc8a4dd3284fe7e1b6a">
+			<from>resultWebauthnPolicy/configuration</from>
+			<to>policy</to>
+		</link>
+		<link id="89e19713667b444383aa57bc9c15a5a6">
+			<from>resultWebauthnCurrentUser/current</from>
+			<to>identity</to>
+		</link>
+	</map>
+	<throw id="2cb25d6f84774aa089385eb4a79d617c"
+		label="!identity || identity/anonymous == true || identity/blockedSince != null || identity/verified == null"
+		message="A verified identity is required"/>
+	<map id="695dbc9739804d36acfb0519ebbde895">
+		<link id="85390d5f6be6476298bde34e81611d18">
+			<from>identity/id</from>
+			<to>ownerId</to>
+		</link>
+	</map>
+	<map id="a234ddb828a74e19b5438583b82e512b"
+		label="identity/ownerId != null">
+		<link id="f6c0447b1deb48bdb1929facdd770c1d">
+			<from>identity/ownerId</from>
+			<to>ownerId</to>
+		</link>
+	</map>
+	<map id="9e4ac7d8e4d746908ff45de8923b0b3a">
+		<invoke id="5d88f68f383a455497ac5a91d5e9cc71"
+			resultName="resultWebauthnRevocationTime"
+			serviceId="nabu.utils.Date.now"
+			x="25"
+			y="25">
+		</invoke>
+		<invoke id="67f43559c02242c08ac3456f86953863"
+			invocationOrder="1"
+			resultName="resultWebauthnRevocation"
+			serviceId="nabu.cms.authentication.webauthn.utils.credential.revoke"
+			x="275"
+			y="110">
+			<link id="42eb8f8b807b4188a7b5d3d38d984c82">
+				<from>resultWebauthnRevocationTime/date</from>
+				<to>parameters/now</to>
+			</link>
+			<link id="205f0363c5004f38b04847449d74dda8">
+				<from>input/credentialId</from>
+				<to>parameters/id</to>
+			</link>
+			<link id="8f257db13747467ea9c99713c318365f">
+				<from>ownerId</from>
+				<to>parameters/ownerId</to>
+			</link>
+			<link id="ee356cbd8211426a935a361ce93a26c2">
+				<from>policy/rpId</from>
+				<to>parameters/rpId</to>
+			</link>
+		</invoke>
+		<link id="0463c032cd584b18a66d3a54b9667bfb">
+			<from>resultWebauthnRevocation/rowCount</from>
+			<to>revokedRows</to>
+		</link>
+	</map>
+	<throw id="13f4b2c3a163416b90cbfa1faaa4d400"
+		label="revokedRows != 1"
+		message="Credential was not found"/>
+	<map id="5ea5f4bfcec74dd38f898eb894c3ffcc">
+		<link id="cc4d6196a941493895dc059667358e18"
+			fixedValue="true">
+			<from>true</from>
+			<to>output/success</to>
+		</link>
+	</map>
+</sequence>

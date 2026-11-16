@@ -1,0 +1,212 @@
+<sequence id="95e3e2f40cef46e2b2923c5854520aef">
+	<map id="ec9993a942844ec4936fb14dcceed0da">
+		<invoke id="3c99c4b7ae8d41e7bbe42ccaa4063f36"
+			resultName="resultPolicy"
+			serviceId="nabu.cms.authentication.webauthn.utils.getPolicy"
+			x="25"
+			y="25">
+			<link id="5f3bd6850c1a447e913a70a3ab90e83c">
+				<from>input/origin</from>
+				<to>origin</to>
+			</link>
+			<link id="4feab91304664141bf13b5bef87ca518">
+				<from>input/applicationId</from>
+				<to>applicationId</to>
+			</link>
+		</invoke>
+		<link id="728871220d2d44b6b32d353eee4d972c">
+			<from>resultPolicy/configuration</from>
+			<to>policy</to>
+		</link>
+	</map>
+	<throw id="c4e3df4bc96844f8b0b4ec27048c44f1"
+		label="input/alias == null || input/realm == null || input/applicationId == null"
+		message="Invalid WebAuthn options request"/>
+	<map id="b4a6d575740049f6a8a17100d2cb6ce5">
+		<invoke id="8a5a3d123ed7498389d28d4487c5be6a"
+			resultName="resultContext"
+			serviceId="nabu.cms.core.services.context.getApplication"
+			x="25"
+			y="25">
+			<link id="79a5db81908241d88e4868fa720427cd">
+				<from>input/applicationId</from>
+				<to>application</to>
+			</link>
+		</invoke>
+		<link id="0f267f8798d84af5b571dde4d6638610">
+			<from>resultContext/context/id</from>
+			<to>contextId</to>
+		</link>
+	</map>
+	<throw id="f3ed8c60cb78455f99ba7e242af0900d"
+		label="contextId == null"
+		message="Invalid WebAuthn application"/>
+	<map id="bcb51fe44055496ea0a0ba45e691107b">
+		<invoke id="7044c2c8cf9547268b0c7e6a35e4e50d"
+			resultName="resultRealms"
+			serviceId="nabu.cms.core.v2.services.user.getAllowedRealms"
+			x="25"
+			y="25">
+			<link id="10be7e1a5aec42a68a346339bcd4fb12">
+				<from>input/realm</from>
+				<to>realm</to>
+			</link>
+		</invoke>
+		<link id="d4b23c4678274ff199ac8ce96174f931">
+			<from>resultRealms/realms</from>
+			<to>realms</to>
+		</link>
+	</map>
+	<map id="5f8bea459d154a98a374785ab4abc73b">
+		<invoke id="0036befbd0d44ca79c768ec66ca6eb64"
+			resultName="resultUsers"
+			serviceId="nabu.cms.core.database.user.selectActiveByAlias2"
+			x="25"
+			y="25">
+			<link id="a390a357436647de9459f4c193983165">
+				<from>input/alias</from>
+				<to>parameters/alias</to>
+			</link>
+			<link id="389748bf6a384d8a8d1d3b45097aed98">
+				<from>realms</from>
+				<to>parameters/realm</to>
+			</link>
+			<link id="52082796b1f14a0690b1011b65021bcc"
+				fixedValue="true">
+				<from>false</from>
+				<to>parameters/allowUnverified</to>
+			</link>
+		</invoke>
+		<link id="e6915abc37a040b59ef7dea2424afd37">
+			<from>resultUsers/results[0]</from>
+			<to>user</to>
+		</link>
+	</map>
+	<throw id="0be6b06d01114140a9f68695679aba41"
+		label="user == null || user/anonymous == true || user/blockedSince != null || user/verified == null"
+		message="Authentication unavailable"/>
+	<map id="91328dfad6784af8b25d0099c8bc645b">
+		<link id="0e62987b7e1e4884925f2b779fbc98d1">
+			<from>user/id</from>
+			<to>ownerId</to>
+		</link>
+	</map>
+	<map id="b972477f63b44127ba4f3c6f2b2f358c"
+		label="user/ownerId != null">
+		<link id="3ae850d3831549afbd4be8033d8f5c0f">
+			<from>user/ownerId</from>
+			<to>ownerId</to>
+		</link>
+	</map>
+	<map id="9006e342e94a4cc49c191c644992c4b5">
+		<invoke id="82e816ce11c149db87aa3772ee23ba40"
+			resultName="resultPermission"
+			serviceId="nabu.cms.core.services.user.canLoginAs"
+			x="25"
+			y="25">
+			<link id="00f240ab8c844d0485dab74c602ceb08">
+				<from>ownerId</from>
+				<to>userId</to>
+			</link>
+			<link id="6acf749db5224b64ace08d303f90c652">
+				<from>contextId</from>
+				<to>contextId</to>
+			</link>
+		</invoke>
+		<link id="2e26b38319f74cc0a9169e462bcf73b4">
+			<from>resultPermission/canLogin</from>
+			<to>canLogin</to>
+		</link>
+	</map>
+	<throw id="54dd08f8e3da443e87ce5fc3b31cfd8f"
+		label="canLogin != true"
+		message="Authentication unavailable"/>
+	<map id="c62c1bef05f5465f897ead25701f99d0">
+		<invoke id="e204e827572d4fd781a8907775e6fa35"
+			resultName="resultCredentials"
+			serviceId="nabu.cms.authentication.webauthn.crud.credential.services.list"
+			x="25"
+			y="25">
+			<link id="4f9586d7f441417b9993b363d0a8c898">
+				<from>policy/rpId</from>
+				<to>filter/rpId[0]</to>
+			</link>
+			<link id="5e6b1bf896944f018d3a984dbdddd683">
+				<from>ownerId</from>
+				<to>filter/ownerId[0]</to>
+			</link>
+			<link id="928e8739c0d349f089867f0ccd1a4556"
+				fixedValue="true">
+				<from>true</from>
+				<to>filter/active</to>
+			</link>
+			<link id="dda01e664d8c44df9c471b8a4afb8887"
+				fixedValue="true">
+				<from>false</from>
+				<to>limitToUser</to>
+			</link>
+		</invoke>
+		<link id="3371927719cf49ce98e2f485d2430ca9">
+			<from>resultCredentials/results/credentialId</from>
+			<to>output/allowedCredentials</to>
+		</link>
+	</map>
+	<map id="3241d43966a04683abeecca609955caa">
+		<invoke id="cf3afcad435e466387d1e14307aaca48"
+			resultName="resultStarted"
+			serviceId="nabu.cms.authentication.webauthn.services.beginCeremony"
+			x="25"
+			y="25">
+			<link id="f99f9b3bcc7c4e0e8a19b3f980dd884c">
+				<from>input/applicationId</from>
+				<to>applicationId</to>
+			</link>
+			<link id="75c9c2a779f644d182b7d224d74b28a0"
+				fixedValue="true">
+				<from>assertion</from>
+				<to>purpose</to>
+			</link>
+			<link id="a98a2120f31c45b0bfb2dc5ae3f58ca1">
+				<from>input/alias</from>
+				<to>alias</to>
+			</link>
+			<link id="0a97ffa3ac2b4500b7252a47e4798ce6">
+				<from>user/realm</from>
+				<to>realm</to>
+			</link>
+			<link id="c101c8d57d57442e8ec00f9445428933">
+				<from>contextId</from>
+				<to>contextId</to>
+			</link>
+			<link id="8276354eb53f476a9b55fbe2b68cadc5">
+				<from>ownerId</from>
+				<to>ownerId</to>
+			</link>
+			<link id="510eb086a39c48bb8d694681bbd2abd1">
+				<from>input/origin</from>
+				<to>origin</to>
+			</link>
+		</invoke>
+		<link id="db75198cc91f4436b62dc8e0770e24bb">
+			<from>resultStarted/ceremonyId</from>
+			<to>output/ceremonyId</to>
+		</link>
+		<link id="a350e7d03d44439a8230723191f1fc1d">
+			<from>resultStarted/challengeValue</from>
+			<to>output/challenge</to>
+		</link>
+		<link id="1b9d1e301a7d410fbff3c79a2336be05">
+			<from>policy/rpId</from>
+			<to>output/rpId</to>
+		</link>
+		<link id="e83d3f5614bb43539c4a611f3420c881">
+			<from>resultStarted/expiresAt</from>
+			<to>output/expires</to>
+		</link>
+		<link id="2ebd66cb6de74f5dbd92cfe4c7a81c61"
+			fixedValue="true">
+			<from>=policy/timeoutSeconds * 1000</from>
+			<to>output/timeout</to>
+		</link>
+	</map>
+</sequence>

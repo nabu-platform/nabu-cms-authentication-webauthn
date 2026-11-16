@@ -1,0 +1,14 @@
+<structure name="pipeline">
+	<structure name="input">
+		<structure definition="nabu.cms.authentication.webauthn.configuration.policy" name="policy"/>
+		<field name="origin" type="java.lang.String"/>
+	</structure>
+	<structure name="output">
+		<field name="valid" type="java.lang.Boolean"/>
+	</structure>
+	<field name="rpMatch" type="java.lang.String"/>
+	<field name="originMatch" type="java.lang.String"/>
+	<field name="allowedOrigin" type="java.lang.String"/>
+	<field name="escapedRpId" type="java.lang.String"/>
+	<field name="subdomainMatch" type="java.lang.String"/>
+</structure>

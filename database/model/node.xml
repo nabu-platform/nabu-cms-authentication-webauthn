@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<node artifactManager="be.nabu.eai.module.data.model.DataModelManager" created="2026-10-29T16:29:15.184+01:00" lastModified="2026-10-30T12:28:18.476+01:00" leaf="true" version="7">
+    <environmentId>ares</environmentId>
+    <hidden>false</hidden>
+    <locked>false</locked>
+    <properties/>
+    <references>nabu.cms.authentication.webauthn.database.types.credential</references>
+    <references>nabu.cms.authentication.webauthn.database.types.ceremony</references>
+</node>

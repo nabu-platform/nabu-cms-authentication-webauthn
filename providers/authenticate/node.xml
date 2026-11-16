@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<node artifactManager="be.nabu.eai.module.services.vm.VMServiceManager" created="2026-10-30T09:43:27.153+01:00" lastModified="2026-11-12T17:29:37.227+01:00" leaf="true" version="13">
+    <environmentId>ares</environmentId>
+    <hidden>false</hidden>
+    <locked>false</locked>
+    <properties/>
+    <references>nabu.cms.authentication.webauthn.types.assertionEnvelope</references>
+    <references>nabu.web.application.Services.current</references>
+    <references>nabu.utils.WebAuthn.parseAssertionEnvelope</references>
+    <references>be.nabu.eai.authentication.api.TypedAuthenticator.authenticate</references>
+    <references>java.lang.String</references>
+    <references>be.nabu.libs.authentication.api.Device</references>
+    <references>be.nabu.libs.authentication.api.Token</references>
+    <references>be.nabu.libs.authentication.api.principals.TypedPrincipal</references>
+    <references>nabu.cms.authentication.webauthn.services.finishAssertion</references>
+</node>

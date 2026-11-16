@@ -1,0 +1,27 @@
+<structure name="pipeline">
+	<structure name="input">
+		<field name="origin" type="java.lang.String"/>
+		<field name="applicationId" type="java.lang.String"/>
+	</structure>
+	<structure name="output">
+		<structure definition="nabu.cms.authentication.webauthn.configuration.policy" name="configuration"/>
+	</structure>
+	<structure definition="nabu.cms.authentication.webauthn.configuration.policy" name="localPolicy"/>
+	<field name="policyCount" type="java.lang.Integer"/>
+	<field name="host" type="java.lang.String"/>
+	<field name="portSuffix" type="java.lang.String"/>
+	<field name="systemRpId" type="java.lang.String"/>
+	<field name="systemOrigins" type="java.lang.String"/>
+	<field name="systemTimeout" type="java.lang.String"/>
+	<field name="systemVerification" type="java.lang.String"/>
+	<field name="candidateOrigin" type="java.lang.String"/>
+	<field name="valid" type="java.lang.Boolean"/>
+	<field name="port" type="java.lang.Integer"/>
+	<structure definition="nabu.web.application.types.WebApplicationInformation" name="application"/>
+	<field name="escapedRpId" type="java.lang.String"/>
+	<field name="originHost" type="java.lang.String"/>
+	<field name="originMatch" type="java.lang.String"/>
+	<field name="rpMatch" type="java.lang.String"/>
+	<field name="aliasMatch" type="java.lang.String"/>
+	<field name="effectiveOrigin" type="java.lang.String"/>
+</structure>

@@ -1,0 +1,3 @@
+<structure name="finishRegistrationOutput">
+	<field name="credentialId" type="java.lang.String"/>
+</structure>

@@ -1,0 +1,14 @@
+<structure name="pipeline">
+	<structure name="input">
+		<field name="credentialId" type="java.util.UUID"/>
+		<field name="origin" type="java.lang.String"/>
+		<field name="applicationId" type="java.lang.String"/>
+	</structure>
+	<structure name="output">
+		<field name="success" type="java.lang.Boolean"/>
+	</structure>
+	<structure definition="nabu.cms.authentication.webauthn.configuration.policy" name="policy"/>
+	<structure definition="nabu.cms.core.types.emodel.core.User" name="identity"/>
+	<field name="ownerId" type="java.util.UUID"/>
+	<field name="revokedRows" type="java.lang.Long"/>
+</structure>

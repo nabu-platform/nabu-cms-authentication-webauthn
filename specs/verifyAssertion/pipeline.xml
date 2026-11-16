@@ -1,0 +1,23 @@
+<structure name="pipeline">
+	<structure name="input">
+		<structure definition="nabu.cms.authentication.webauthn.configuration.policy" name="policy"/>
+		<structure definition="nabu.cms.authentication.webauthn.database.types.ceremony" name="ceremony"/>
+		<structure definition="nabu.cms.authentication.webauthn.database.types.credential" name="credential"/>
+		<field name="credentialId" type="java.lang.String"/>
+		<field comment="Unpadded base64url raw clientDataJSON bytes." name="clientDataJson" type="java.lang.String"/>
+		<field comment="Unpadded base64url raw authenticatorData bytes." name="authenticatorData" type="java.lang.String"/>
+		<field comment="Unpadded base64url DER ES256 signature." name="signature" type="java.lang.String"/>
+		<field comment="Unpadded base64url opaque handle, if sent by authenticator." minOccurs="0" name="userHandle" type="java.lang.String"/>
+		<field comment="Untrusted browser assertion envelope; verifier must parse and validate every field." name="responseJson" type="java.lang.String"/>
+		<field minOccurs="0" name="implementationId" type="java.lang.String"/>
+		<field minOccurs="0" name="useAsContext" type="java.lang.Boolean"/>
+		<structure definition="nabu.utils.types.WebAuthnRequest" name="request"/>
+		<field minOccurs="0" name="useAsContext1" type="java.lang.Boolean"/>
+	</structure>
+	<structure name="output">
+		<field comment="Only true after complete validation; caller must still consume ceremony and update credential atomically." name="verified" type="java.lang.Boolean"/>
+		<field minOccurs="0" name="signCount" type="java.lang.Long"/>
+		<field minOccurs="0" name="backupEligible" type="java.lang.Boolean"/>
+		<field minOccurs="0" name="backupState" type="java.lang.Boolean"/>
+	</structure>
+</structure>

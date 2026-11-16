@@ -1,0 +1,16 @@
+<structure collectionName="webauthnCeremonies" name="ceremony">
+	<field name="id" primaryKey="true" type="java.util.UUID"/>
+	<field comment="Cryptographically random challenge encoded as unpadded base64url." name="challenge" type="java.lang.String" unique="true"/>
+	<field comment="Opaque handle bound to registration; reused for existing owner credentials." name="userHandle" type="java.lang.String"/>
+	<field name="purpose" type="java.lang.String"/>
+	<field name="rpId" type="java.lang.String"/>
+	<field comment="Exact configured HTTPS origin selected for this ceremony." name="origin" type="java.lang.String"/>
+	<field comment="Server-side application/security context binding, never supplied by assertion JSON." name="contextId" type="java.lang.String"/>
+	<field comment="Canonical owner selected by authorized ceremony creator." foreignKey="nabu.cms.core.types.model.core.User:id" name="ownerId" type="java.util.UUID"/>
+	<field comment="Authenticated enrollment identity selected at start; required again at finish." minOccurs="0" name="enrollmentIdentityId" type="java.util.UUID"/>
+	<field name="realm" type="java.lang.String"/>
+	<field comment="Requested login alias, validated against current account eligibility at finish." name="authenticationId" type="java.lang.String"/>
+	<field name="created" timezone="UTC" type="java.util.Date"/>
+	<field name="expires" timezone="UTC" type="java.util.Date"/>
+	<field minOccurs="0" name="consumed" timezone="UTC" type="java.util.Date"/>
+</structure>

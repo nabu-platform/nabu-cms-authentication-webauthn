@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<webModule>
+    <path></path>
+    <webFragments>nabu.cms.authentication.webauthn.api.rest.authenticationOptions</webFragments>
+    <webFragments>nabu.cms.authentication.webauthn.api.rest.registrationOptions</webFragments>
+    <webFragments>nabu.cms.authentication.webauthn.api.rest.finishRegistration</webFragments>
+    <webFragments>nabu.cms.authentication.webauthn.api.rest.listCredentials</webFragments>
+    <webFragments>nabu.cms.authentication.webauthn.api.rest.revokeCredential</webFragments>
+</webModule>

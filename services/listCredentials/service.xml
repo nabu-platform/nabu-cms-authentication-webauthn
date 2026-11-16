@@ -1,0 +1,84 @@
+<sequence id="6c8a907fb25847fb9fc8269530fa0ef7">
+	<map id="555c2e3ad623494fa1403697cf963055">
+		<invoke id="57460d5e73da446abfdabc16eee384d0"
+			resultName="resultWebauthnPolicy"
+			serviceId="nabu.cms.authentication.webauthn.utils.getPolicy"
+			x="25"
+			y="25">
+			<link id="2e64ac55de4a4f6eb72ecd746bfd8432">
+				<from>input/applicationId</from>
+				<to>applicationId</to>
+			</link>
+			<link id="f67fd8da2ce4413fb999439d479d6b6b">
+				<from>input/origin</from>
+				<to>origin</to>
+			</link>
+		</invoke>
+		<invoke id="d28e1b9a528c42efa4138b2953ad7a49"
+			resultName="resultWebauthnCurrentUser"
+			serviceId="nabu.cms.core.services.user.getCurrent"
+			x="25"
+			y="110">
+			<link id="614eee9eaff542cf8e8e94e91ee10075"
+				fixedValue="true">
+				<from>true</from>
+				<to>mustExist</to>
+			</link>
+		</invoke>
+		<link id="4f9a57809c79491e9b71876344f22e1f">
+			<from>resultWebauthnPolicy/configuration</from>
+			<to>policy</to>
+		</link>
+		<link id="6f0c223fbbf247db978754aea28acd70">
+			<from>resultWebauthnCurrentUser/current</from>
+			<to>identity</to>
+		</link>
+	</map>
+	<throw id="f0ffb477c3a74ffeb1eeaad93ba8fa5d"
+		label="!identity || identity/anonymous == true || identity/blockedSince != null || identity/verified == null"
+		message="A verified identity is required"/>
+	<map id="60f2c90b9c854da28c0f3d7b07b1aab6">
+		<link id="1a4895a7274d4184a4a123af9aef7040">
+			<from>identity/id</from>
+			<to>ownerId</to>
+		</link>
+	</map>
+	<map id="b905ae91ffeb4ea3b23d45d9c62429b4"
+		label="identity/ownerId != null">
+		<link id="eff9db65bbaf4f759f3d4fcde9511bc4">
+			<from>identity/ownerId</from>
+			<to>ownerId</to>
+		</link>
+	</map>
+	<map id="17ddfab3d65f44d18922c379fb180ff3">
+		<invoke id="29b118bd5cff42ea8a8d4bf63efb58d0"
+			resultName="resultWebauthnStoredCredentials"
+			serviceId="nabu.cms.authentication.webauthn.crud.credential.services.list"
+			x="25"
+			y="25">
+			<link id="a3b563a0885c436b9539980f86b8a580">
+				<from>policy/rpId</from>
+				<to>filter/rpId[0]</to>
+			</link>
+			<link id="0cfad661d35a4b85a570ee5e2a15c07f">
+				<from>ownerId</from>
+				<to>filter/ownerId[0]</to>
+			</link>
+			<link id="21cd8664a90542888b21eadc2766ab6a"
+				fixedValue="true">
+				<from>true</from>
+				<to>filter/active</to>
+			</link>
+			<link id="449f1b23b8aa475f8456a1dd099d1e35"
+				fixedValue="true">
+				<from>false</from>
+				<to>limitToUser</to>
+			</link>
+		</invoke>
+		<link id="d4daba91f4884b5e8985bf155a8d3d67"
+			mask="true">
+			<from>resultWebauthnStoredCredentials/results</from>
+			<to>output/credentials</to>
+		</link>
+	</map>
+</sequence>

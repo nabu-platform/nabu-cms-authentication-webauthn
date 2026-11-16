@@ -1,0 +1,38 @@
+<sequence id="470d465fe0734e499a4ff97269ba08f3">
+	<throw id="6890ca8ed3e8494a9d26183bc1f1beaf"
+		label="true"
+		message="Registration temporarily unavailable pending verified enrollment binding"/>
+	<throw id="48e96a14da2445aead1c10a0b6bc9d38"
+		label="input/content/password == null"
+		message="Password proof is required for REST registration"/>
+	<map id="47ac955f175843178fa9ba98e08592fc">
+		<invoke id="0abd6ba076b1468b9b1e6c36f1b7b8fb"
+			resultName="resultWebauthnRegistrationOptions"
+			serviceId="nabu.cms.authentication.webauthn.services.registrationOptions"
+			x="25"
+			y="25">
+			<link id="0c4c9bf1654842658caf8310705bb3d8">
+				<from>input/webApplicationId</from>
+				<to>applicationId</to>
+			</link>
+			<link id="aa7e61bf412041848333df0db967ee03">
+				<from>input/content/password</from>
+				<to>password</to>
+			</link>
+			<link id="83cc91db3bbf4cb483c8f1d0c8fbe901"
+				fixedValue="true">
+				<from>true</from>
+				<to>requireActiveAccount</to>
+			</link>
+			<link id="a9e17ccc39be4d37963501452f617f70">
+				<from>input/origin</from>
+				<to>origin</to>
+			</link>
+		</invoke>
+		<link id="7bc2e6e1653642aaa0d58b50366257ed"
+			mask="true">
+			<from>resultWebauthnRegistrationOptions</from>
+			<to>output/content</to>
+		</link>
+	</map>
+</sequence>

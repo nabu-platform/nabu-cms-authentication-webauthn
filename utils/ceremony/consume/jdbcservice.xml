@@ -1,0 +1,5 @@
+<jdbcService xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<sql>update ~webauthn_ceremonies
+set consumed = :now
+where id = :id and consumed is null and expires &gt; :now and purpose = :purpose and owner_id = :ownerId and context_id = :contextId and rp_id = :rpId</sql>
+</jdbcService>

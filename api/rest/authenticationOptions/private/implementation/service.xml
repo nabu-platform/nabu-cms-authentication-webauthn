@@ -1,0 +1,42 @@
+<sequence id="e62e982e2932495bb88ab35b2c02b6a9">
+	<map id="e0a49d7b52cd4344963b4cad3e7e76e8">
+		<invoke id="28663e670d4341d8af8c4225573effc2"
+			resultName="resultWebauthnApplicationInformation"
+			serviceId="nabu.web.application.Services.information"
+			x="25"
+			y="25">
+			<link id="a596309ace934ee08e135c1dc1cff3fb">
+				<from>input/webApplicationId</from>
+				<to>webApplicationId</to>
+			</link>
+		</invoke>
+		<invoke id="3dad53c86eb54923ad242f4bfcf74e2b"
+			invocationOrder="1"
+			resultName="resultWebauthnOptions"
+			serviceId="nabu.cms.authentication.webauthn.services.authenticationOptions"
+			x="275"
+			y="110">
+			<link id="cda557aa3721499e928acc2554e01395">
+				<from>input/content/alias</from>
+				<to>alias</to>
+			</link>
+			<link id="e95da8096f1d4c9da961d0b8946b2647">
+				<from>resultWebauthnApplicationInformation/information/realm</from>
+				<to>realm</to>
+			</link>
+			<link id="25e73990ae5f4eccba8424a65a49c041">
+				<from>input/webApplicationId</from>
+				<to>applicationId</to>
+			</link>
+			<link id="30faba7324654f70953ef82fda705c90">
+				<from>input/origin</from>
+				<to>origin</to>
+			</link>
+		</invoke>
+		<link id="7a11c1aa282247299d8f3387feda77c8"
+			mask="true">
+			<from>resultWebauthnOptions</from>
+			<to>output/content</to>
+		</link>
+	</map>
+</sequence>

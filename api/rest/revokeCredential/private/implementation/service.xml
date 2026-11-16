@@ -1,0 +1,22 @@
+<sequence id="1d289e3d8dd546ff8dfc07139293403e">
+	<map id="2152dd55bb374d7ab1840bdf5cf24185">
+		<invoke id="b028e669d5c24d56b279bd5486a179f7"
+			resultName="resultWebauthnRevocation"
+			serviceId="nabu.cms.authentication.webauthn.services.revokeCredential"
+			x="25"
+			y="25">
+			<link id="478f569900554e0893b0fcafc8e263b4">
+				<from>input/webApplicationId</from>
+				<to>applicationId</to>
+			</link>
+			<link id="1a67d1a87b5d49f9b7f2b38aa08d4e0e">
+				<from>input/path/credentialId</from>
+				<to>credentialId</to>
+			</link>
+			<link id="643993aca6fe450ebcd1116c67f2ea69">
+				<from>input/origin</from>
+				<to>origin</to>
+			</link>
+		</invoke>
+	</map>
+</sequence>

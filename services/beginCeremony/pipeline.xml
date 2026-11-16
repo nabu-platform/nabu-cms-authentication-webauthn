@@ -1,0 +1,28 @@
+<structure name="pipeline">
+	<structure name="input">
+		<field name="purpose" type="java.lang.String"/>
+		<field name="alias" type="java.lang.String"/>
+		<field name="realm" type="java.lang.String"/>
+		<field name="contextId" type="java.lang.String"/>
+		<field name="ownerId" type="java.util.UUID"/>
+		<field name="enrollmentIdentityId" type="java.util.UUID"/>
+		<field name="origin" type="java.lang.String"/>
+		<field name="applicationId" type="java.lang.String"/>
+	</structure>
+	<structure name="output">
+		<field name="ceremonyId" type="java.util.UUID"/>
+		<field name="challengeValue" type="java.lang.String"/>
+		<field name="userHandle" type="java.lang.String"/>
+		<field name="expiresAt" type="java.util.Date"/>
+	</structure>
+	<structure definition="nabu.cms.authentication.webauthn.configuration.policy" name="policy"/>
+	<field name="now" type="java.util.Date"/>
+	<field name="id" type="java.util.UUID"/>
+	<field name="challenge" type="java.lang.String"/>
+	<field name="challengeSuffix" type="java.lang.String"/>
+	<field name="handleSuffix" type="java.lang.String"/>
+	<field name="handle" type="java.lang.String"/>
+	<field name="expires" type="java.util.Date"/>
+	<structure definition="nabu.cms.authentication.webauthn.crud.credential.types.output" name="existing"/>
+	<structure definition="nabu.cms.authentication.webauthn.crud.ceremony.types.createOutput" name="created"/>
+</structure>

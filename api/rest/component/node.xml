@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<node artifactManager="be.nabu.eai.module.web.component.WebComponentManager" created="2026-10-30T09:46:09.773+01:00" lastModified="2026-10-30T10:12:47.337+01:00" leaf="true" version="5">
+    <environmentId>ares</environmentId>
+    <hidden>false</hidden>
+    <locked>false</locked>
+    <properties/>
+    <references>nabu.cms.authentication.webauthn.api.rest.authenticationOptions</references>
+    <references>nabu.cms.authentication.webauthn.api.rest.registrationOptions</references>
+    <references>nabu.cms.authentication.webauthn.api.rest.finishRegistration</references>
+    <references>nabu.cms.authentication.webauthn.api.rest.listCredentials</references>
+    <references>nabu.cms.authentication.webauthn.api.rest.revokeCredential</references>
+</node>

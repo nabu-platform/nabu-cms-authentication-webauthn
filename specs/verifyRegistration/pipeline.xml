@@ -1,0 +1,18 @@
+<structure name="pipeline">
+	<structure name="input">
+		<structure definition="nabu.cms.authentication.webauthn.configuration.policy" name="policy"/>
+		<structure definition="nabu.cms.authentication.webauthn.database.types.ceremony" name="ceremony"/>
+		<field comment="Unpadded base64url raw clientDataJSON bytes." name="clientDataJson" type="java.lang.String"/>
+		<field comment="Unpadded base64url raw CBOR attestationObject bytes." name="attestationObject" type="java.lang.String"/>
+		<field comment="Unpadded base64url raw credential ID from response." name="credentialId" type="java.lang.String"/>
+		<field comment="Untrusted browser registration envelope; verifier must validate attestation and authenticator data." name="responseJson" type="java.lang.String"/>
+	</structure>
+	<structure name="output">
+		<field comment="Only true after full attestation/authenticator-data checks; caller still atomically consumes ceremony and inserts credential." name="verified" type="java.lang.Boolean"/>
+		<field minOccurs="0" name="credentialId" type="java.lang.String"/>
+		<field minOccurs="0" name="publicKeySpki" type="java.lang.String"/>
+		<field minOccurs="0" name="signCount" type="java.lang.Long"/>
+		<field minOccurs="0" name="backupEligible" type="java.lang.Boolean"/>
+		<field minOccurs="0" name="backupState" type="java.lang.Boolean"/>
+	</structure>
+</structure>

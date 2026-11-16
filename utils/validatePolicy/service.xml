@@ -1,0 +1,116 @@
+<sequence id="6fe586415d9f470fa34b3860f13599c8">
+	<throw id="b99ef7e85927471db3107873f583e4e1"
+		label="input/policy == null || input/policy/rpId == null || input/policy/timeoutSeconds == null || input/policy/timeoutSeconds &lt; 1 || input/policy/timeoutSeconds &gt; 300 || input/policy/requireUserVerification == null || input/origin == null"
+		message="WebAuthn is disabled or the origin is not configured"/>
+	<for id="0f8ab044e9f1410c8e2caca5d4c6852a"
+		query="input/policy/origins"
+		variable="configuredOrigin">
+		<map id="f04677fe913f4f9f880d7c7c4a4a8eb7"
+			label="configuredOrigin == input/origin">
+			<link id="939d93f0c90742c095291b4bf6eb0314">
+				<from>configuredOrigin</from>
+				<to>allowedOrigin</to>
+			</link>
+		</map>
+	</for>
+	<throw id="a078038884d7473c9325c1e9cb343f09"
+		label="allowedOrigin == null"
+		message="WebAuthn is disabled or the origin is not configured"/>
+	<map id="eed475f2fb5e428c9c7bb6cb1ccd23c4">
+		<invoke id="c44949e081d74a31bd0b18fe5d8abcc8"
+			resultName="resultRpMatch"
+			serviceId="nabu.utils.String.regexGroups"
+			x="25"
+			y="25">
+			<link id="dd4477ae5a6f4501a302a020cf658616">
+				<from>input/policy/rpId</from>
+				<to>string</to>
+			</link>
+			<link id="04cb5d27af4f43a0b72ac02018981ba3"
+				fixedValue="true">
+				<from>^([a-z0-9]+([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]+([a-z0-9-]*[a-z0-9])?)+)$</from>
+				<to>regex</to>
+			</link>
+		</invoke>
+		<invoke id="6f6c69cfc7c5480c8a0e203d5b4ce820"
+			resultName="resultOriginMatch"
+			serviceId="nabu.utils.String.regexGroups"
+			x="25"
+			y="110">
+			<link id="a54250a613514954ab1ec9f621db8c49">
+				<from>input/origin</from>
+				<to>string</to>
+			</link>
+			<link id="05cb12fa0816448daed225b667ed96f8"
+				fixedValue="true">
+				<from>^(https://[a-z0-9]+([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]+([a-z0-9-]*[a-z0-9])?)+(:([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]))?)$</from>
+				<to>regex</to>
+			</link>
+		</invoke>
+		<link id="973e94b748e844dcb8ac4eb3e633dec7">
+			<from>resultRpMatch/groups[0]</from>
+			<to>rpMatch</to>
+		</link>
+		<link id="97546bac59254ddbb26f9caff6bca0a9">
+			<from>resultOriginMatch/groups[0]</from>
+			<to>originMatch</to>
+		</link>
+	</map>
+	<map id="f4bf5d3800b14e848de1431882687aeb">
+		<invoke id="dea42b5d8aa84a90a445bc6b37ae1cd4"
+			resultName="resultEscapedRp"
+			serviceId="nabu.utils.String.replace"
+			x="25"
+			y="25">
+			<link id="a5f30d910d04432cbddd8ebd336290ec">
+				<from>input/policy/rpId</from>
+				<to>content</to>
+			</link>
+			<link id="ba4bda60374b43e18ee42fa50071b0c8"
+				fixedValue="true">
+				<from>.</from>
+				<to>match</to>
+			</link>
+			<link id="34241f4d8c004b38886cf87fcafae120"
+				fixedValue="true">
+				<from>\.</from>
+				<to>replace</to>
+			</link>
+		</invoke>
+		<link id="0de75a6c481540059253921a689eed06">
+			<from>resultEscapedRp/content</from>
+			<to>escapedRpId</to>
+		</link>
+	</map>
+	<map id="20af14037225465e9b10ce2af6109b27">
+		<invoke id="5d2001f25e31460daa219394f64640cf"
+			resultName="resultSubdomain"
+			serviceId="nabu.utils.String.regexGroups"
+			x="25"
+			y="25">
+			<link id="6471d2484aba454e949b7bb787414877">
+				<from>input/origin</from>
+				<to>string</to>
+			</link>
+			<link id="61aa6a1455c346b7bbc499e2eb140f29"
+				fixedValue="true">
+				<from>= "^(https://([a-z0-9-]+\\.)+" + escapedRpId + "(:([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]))?)$"</from>
+				<to>regex</to>
+			</link>
+		</invoke>
+		<link id="d747ca974ce54a4ea46852af054d881e">
+			<from>resultSubdomain/groups[0]</from>
+			<to>subdomainMatch</to>
+		</link>
+	</map>
+	<throw id="255c605715d44ae4847bf09fe9b8b39e"
+		label="rpMatch == null || originMatch == null || !(input/origin == &quot;https://&quot; + input/policy/rpId || input/origin == &quot;https://&quot; + input/policy/rpId + &quot;:443&quot; || subdomainMatch != null)"
+		message="Invalid WebAuthn relying party policy"/>
+	<map id="52ec0491afcb46979b27e76b57377a02">
+		<link id="96af3e7c487c41c8a62327a4be1bd491"
+			fixedValue="true">
+			<from>true</from>
+			<to>output/valid</to>
+		</link>
+	</map>
+</sequence>

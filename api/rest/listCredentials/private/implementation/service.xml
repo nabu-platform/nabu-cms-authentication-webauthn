@@ -1,0 +1,23 @@
+<sequence id="b67387f083be4376b8013dfb2b49d436">
+	<map id="8981865c2c944cb3999e1f8637402634">
+		<invoke id="197387cfc637491ba6c22f43a9b73948"
+			resultName="resultWebauthnCredentials"
+			serviceId="nabu.cms.authentication.webauthn.services.listCredentials"
+			x="25"
+			y="25">
+			<link id="ef2c50e50175491e9bb8af892e384229">
+				<from>input/webApplicationId</from>
+				<to>applicationId</to>
+			</link>
+			<link id="13d960601fe7425db34b526ed753799a">
+				<from>input/origin</from>
+				<to>origin</to>
+			</link>
+		</invoke>
+		<link id="f7759f1779164cae99fc8aebe9babeb7"
+			mask="true">
+			<from>resultWebauthnCredentials</from>
+			<to>output/content</to>
+		</link>
+	</map>
+</sequence>

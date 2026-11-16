@@ -1,0 +1,9 @@
+<structure name="registrationOutput">
+	<field name="ceremonyId" type="java.util.UUID"/>
+	<field name="challenge" type="java.lang.String"/>
+	<field name="rpId" type="java.lang.String"/>
+	<field name="userHandle" type="java.lang.String"/>
+	<field maxOccurs="unbounded" minOccurs="0" name="excludedCredentials" type="java.lang.String"/>
+	<field name="expires" type="java.util.Date"/>
+	<field comment="Browser ceremony timeout in milliseconds." name="timeout" type="java.lang.Integer"/>
+</structure>

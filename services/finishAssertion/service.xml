@@ -1,0 +1,354 @@
+<sequence id="bbeae2aced204c63852059035754e3ea">
+	<map id="7f9a63ab4f784a47978cfb30174e3e80">
+		<invoke id="c6200beb429b4cc1a22ddeae56afae04"
+			resultName="resultContext"
+			serviceId="nabu.cms.core.services.context.getApplication"
+			x="25"
+			y="25">
+			<link id="cc04ad72e0bb43109211b32f09da77ac">
+				<from>input/applicationId</from>
+				<to>application</to>
+			</link>
+		</invoke>
+		<link id="842c26dd21d14d9c9cfc71b9832c44cb">
+			<from>resultContext/context/id</from>
+			<to>contextId</to>
+		</link>
+	</map>
+	<throw id="87200574859d4a6584f276e3c59268db"
+		label="contextId == null"
+		message="Invalid WebAuthn application"/>
+	<throw id="c35fd02d1fdb4309bbe26472d92268b6"
+		label="input/alias == null || input/realm == null || input/applicationId == null || input/ceremonyId == null || input/credentialId == null || input/responseJson == null"
+		message="Invalid WebAuthn assertion"/>
+	<map id="d4e547668a554d5fb773efe903a858d0">
+		<invoke id="9ba480dce1ab4d3ab751d4218273828e"
+			resultName="resultNow"
+			serviceId="nabu.utils.Date.now"
+			x="25"
+			y="25">
+		</invoke>
+		<link id="f5556985ff9f4856bccaa64c2d56fe8d">
+			<from>resultNow/date</from>
+			<to>now</to>
+		</link>
+	</map>
+	<map id="952b9c34eb2c424ba9631e3a072fd1bb">
+		<invoke id="51fc0e65191b4767ad113df13a529d66"
+			resultName="resultCeremonies"
+			serviceId="nabu.cms.authentication.webauthn.crud.ceremony.services.list"
+			x="25"
+			y="25">
+			<link id="87aed36868a143259e113b849c246f5e">
+				<from>input/ceremonyId</from>
+				<to>filter/id[0]</to>
+			</link>
+			<link id="bc6280ae7bf64a758b3a70a5997891c7">
+				<from>contextId</from>
+				<to>filter/contextId[0]</to>
+			</link>
+			<link id="cdfc9ca5129d4b2593e4ce3b8f3c00ca"
+				fixedValue="true">
+				<from>true</from>
+				<to>filter/unused</to>
+			</link>
+			<link id="fde4ff4a65e946de8026eb77e5c19a1b"
+				fixedValue="true">
+				<from>false</from>
+				<to>limitToUser</to>
+			</link>
+		</invoke>
+		<link id="b83f3d0aa048436c8b00249ffb9b275b">
+			<from>resultCeremonies/results[0]</from>
+			<to>ceremony</to>
+		</link>
+	</map>
+	<throw id="7b96cab73baf47709447199ad065c0fd"
+		label="ceremony == null || ceremony/expires &lt;= now"
+		message="Invalid or expired WebAuthn ceremony"/>
+	<throw id="e4278214e05d4411a05cef913f1d66d1"
+		label="ceremony/purpose != &quot;assertion&quot; || ceremony/authenticationId != input/alias || ceremony/realm != input/realm"
+		message="Invalid WebAuthn ceremony"/>
+	<map id="4ef1a9d05a6e40c8b9c8e46f0341d27c">
+		<invoke id="ee40c64f632748d6aaa9921921266a0b"
+			resultName="resultPolicy"
+			serviceId="nabu.cms.authentication.webauthn.utils.getPolicy"
+			x="25"
+			y="25">
+			<link id="4fcd72ea8d97403b97c4ab20f5243ee8">
+				<from>ceremony/origin</from>
+				<to>origin</to>
+			</link>
+			<link id="9dbab28f3aa84bfd828b1d3f2392184d">
+				<from>input/applicationId</from>
+				<to>applicationId</to>
+			</link>
+		</invoke>
+		<link id="6c221ed2c03e4429953c223187ebcf2a">
+			<from>resultPolicy/configuration</from>
+			<to>policy</to>
+		</link>
+	</map>
+	<throw id="426972cb3d6c45408c27b5c726abcbec"
+		label="ceremony/rpId != policy/rpId"
+		message="Invalid WebAuthn ceremony"/>
+	<map id="e7ddf69acceb473ebbb1b8a01edc665e">
+		<invoke id="5b9fb6435aac4a6698594332d0d67447"
+			resultName="resultCredentials"
+			serviceId="nabu.cms.authentication.webauthn.crud.credential.services.list"
+			x="25"
+			y="25">
+			<link id="c5b1f61d26bb4c53a9bc4b0689b1c058">
+				<from>policy/rpId</from>
+				<to>filter/rpId[0]</to>
+			</link>
+			<link id="b4cee927b7e641329946529ff7b31724">
+				<from>input/credentialId</from>
+				<to>filter/credentialId[0]</to>
+			</link>
+			<link id="d73e99dc82b14827b1b48bcee3037f4d">
+				<from>ceremony/ownerId</from>
+				<to>filter/ownerId[0]</to>
+			</link>
+			<link id="ecb4f781d5404343a660685f63533f2e"
+				fixedValue="true">
+				<from>true</from>
+				<to>filter/active</to>
+			</link>
+			<link id="970c963f174d4809bbb2e327d27f9968"
+				fixedValue="true">
+				<from>false</from>
+				<to>limitToUser</to>
+			</link>
+		</invoke>
+		<link id="26f5f87dbaef45a288564397c76d1a69">
+			<from>resultCredentials/results[0]</from>
+			<to>credential</to>
+		</link>
+	</map>
+	<throw id="3f23a792d4754cea88c67cdcdde96365"
+		label="credential == null || credential/algorithm != -7"
+		message="Invalid WebAuthn credential"/>
+	<map id="986e339fb1a8441283f29308c6c069aa">
+		<invoke id="54a396ab29b949dd9eee2eeee1e381e8"
+			resultName="resultVerification"
+			serviceId="nabu.utils.WebAuthn.verifyAssertion"
+			x="25"
+			y="25">
+			<link id="18dc8133448d43979f9925d0980eed33">
+				<from>input/responseJson</from>
+				<to>request/responseJson</to>
+			</link>
+			<link id="d4c8397c63a343c6a1e48f5b3a29c61e">
+				<from>ceremony/challenge</from>
+				<to>request/challenge</to>
+			</link>
+			<link id="80e28733154348fbae62dce39b35b99a">
+				<from>ceremony/rpId</from>
+				<to>request/rpId</to>
+			</link>
+			<link id="14f7c6517feb43eea334478c47773a47">
+				<from>ceremony/origin</from>
+				<to>request/origin</to>
+			</link>
+			<link id="d364f40c449f4c6c986531b5623580bb">
+				<from>credential/credentialId</from>
+				<to>request/credentialId</to>
+			</link>
+			<link id="da32373aa00f4dc7a57adc8bae8e67b8">
+				<from>credential/publicKeySpki</from>
+				<to>request/publicKey</to>
+			</link>
+			<link id="d25bd1013bf749c8af1a0a229226faf8">
+				<from>credential/userHandle</from>
+				<to>request/userHandle</to>
+			</link>
+			<link id="a5ba92e85b1c41c3bfb8c79200b154f7">
+				<from>policy/requireUserVerification</from>
+				<to>request/requireUserVerification</to>
+			</link>
+			<link id="6b2a45460c874356938d8bb9dcd1d7c6">
+				<from>credential/signCount</from>
+				<to>request/signCount</to>
+			</link>
+		</invoke>
+		<link id="e50eec00d9c74a6083fcbf22bc7815e9">
+			<from>resultVerification/result</from>
+			<to>verified</to>
+		</link>
+	</map>
+	<throw id="67b92e08911e4242a791fa10cc2b1ca6"
+		label="verified == null || verified/credentialId != credential/credentialId || verified/backupEligible != credential/backupEligible"
+		message="Invalid WebAuthn assertion"/>
+	<map id="7ba005e347f34947861c13a3afb82956">
+		<invoke id="15acbb1442b4468aa8d3fbe379ded566"
+			resultName="resultRealms"
+			serviceId="nabu.cms.core.v2.services.user.getAllowedRealms"
+			x="25"
+			y="25">
+			<link id="a8b538dd529b48ddbf96764b16b8ff76">
+				<from>input/realm</from>
+				<to>realm</to>
+			</link>
+		</invoke>
+		<link id="091c5b54a7b84649a7c0cc065dee21f4">
+			<from>resultRealms/realms</from>
+			<to>realms</to>
+		</link>
+	</map>
+	<map id="278881f9d0764b1b97d5307c5c7d8b37">
+		<invoke id="3a4874c318c142afaa67f78dfa95230d"
+			resultName="resultUsers"
+			serviceId="nabu.cms.core.database.user.selectActiveByAlias2"
+			x="25"
+			y="25">
+			<link id="ac848dbe5c2c42668c6c151908678914">
+				<from>input/alias</from>
+				<to>parameters/alias</to>
+			</link>
+			<link id="f3159a97ccb84b49bd4d4455b99d1c77">
+				<from>realms</from>
+				<to>parameters/realm</to>
+			</link>
+			<link id="3be87ac628e84129a4f6858c9c4ec11b"
+				fixedValue="true">
+				<from>false</from>
+				<to>parameters/allowUnverified</to>
+			</link>
+		</invoke>
+		<link id="5649ae76c7dc4be383bda0c532204b04">
+			<from>resultUsers/results[0]</from>
+			<to>user</to>
+		</link>
+	</map>
+	<throw id="b95926b780a6482fb71e3727aef894f8"
+		label="user == null || user/anonymous == true || user/blockedSince != null || user/verified == null || (user/ownerId != null &amp;&amp; user/ownerId != ceremony/ownerId) || (user/ownerId == null &amp;&amp; user/id != ceremony/ownerId)"
+		message="Invalid WebAuthn account"/>
+	<map id="09bd97dbcf374fcf864065e935e5d94a">
+		<invoke id="ca786aab9c4e400187ec6fdc1f035279"
+			resultName="resultPermission"
+			serviceId="nabu.cms.core.services.user.canLoginAs"
+			x="25"
+			y="25">
+			<link id="ebc953f2891143a9bcedfaa643859ca8">
+				<from>ceremony/ownerId</from>
+				<to>userId</to>
+			</link>
+			<link id="ef06dfaf275746f9acab45bbd646dde6">
+				<from>contextId</from>
+				<to>contextId</to>
+			</link>
+		</invoke>
+		<link id="72cf1026055c4684a4359703af06f571">
+			<from>resultPermission/canLogin</from>
+			<to>canLogin</to>
+		</link>
+	</map>
+	<throw id="9fbbd039d4954dc9aaadf2e6a072f0cd"
+		label="canLogin != true"
+		message="WebAuthn login is not permitted"/>
+	<sequence id="2cb8d2c376b64552bff79110d612d4ec"
+		scopeDefaultTransaction="true">
+		<map id="c84edb6b47f346b3bc066c0f8b835934">
+			<invoke id="b2c5fb03c4a44cbe94a30eba9b56ea18"
+				resultName="resultConsumed"
+				serviceId="nabu.cms.authentication.webauthn.utils.ceremony.consume"
+				x="25"
+				y="25">
+				<link id="41dec768494e4e48bdfe7f3197e06b88">
+					<from>now</from>
+					<to>parameters[0]/now</to>
+				</link>
+				<link id="657d80fb320a4764979c90595ad87b59">
+					<from>input/ceremonyId</from>
+					<to>parameters[0]/id</to>
+				</link>
+				<link id="d14e58215a1f41bf972ca210f475aa51"
+					fixedValue="true">
+					<from>assertion</from>
+					<to>parameters[0]/purpose</to>
+				</link>
+				<link id="bc3bd85a401f457bbd4cf183166e813f">
+					<from>ceremony/ownerId</from>
+					<to>parameters[0]/ownerId</to>
+				</link>
+				<link id="d075ed4153a849f590c68a833f740d8b">
+					<from>contextId</from>
+					<to>parameters[0]/contextId</to>
+				</link>
+				<link id="b214f62025694934832597e7c23cfb35">
+					<from>policy/rpId</from>
+					<to>parameters[0]/rpId</to>
+				</link>
+			</invoke>
+			<link id="76554bf0471a476088fdbc07cd975e8b">
+				<from>resultConsumed/rowCount</from>
+				<to>consumedRows</to>
+			</link>
+		</map>
+		<throw id="a56e8ce5dc6a443395afd843e49cc9bb"
+			label="consumedRows != 1"
+			message="WebAuthn ceremony was already consumed"/>
+		<map id="0f93a8891a3a4839977b97046089e1ee">
+			<invoke id="70a4c2c3b7cb4659ad993d69febdecd0"
+				resultName="resultUpdated"
+				serviceId="nabu.cms.authentication.webauthn.utils.credential.update"
+				x="25"
+				y="25">
+				<link id="2addb66e214e4cedb629b3d063f343ba">
+					<from>verified/signCount</from>
+					<to>parameters[0]/signCount</to>
+				</link>
+				<link id="83f85bc85eb64d74b8c9d8ceabcbaf81">
+					<from>verified/backedUp</from>
+					<to>parameters[0]/backupState</to>
+				</link>
+				<link id="10e7f63e3ecf4ad9b581c48d9afc4c83">
+					<from>now</from>
+					<to>parameters[0]/now</to>
+				</link>
+				<link id="cb10146db5f049e69f3e1b318f053f20">
+					<from>credential/id</from>
+					<to>parameters[0]/id</to>
+				</link>
+				<link id="aa42c88aaa344a138a1b4cced825254a">
+					<from>ceremony/ownerId</from>
+					<to>parameters[0]/ownerId</to>
+				</link>
+				<link id="c98a2edf8bc1443d8d4ae2079cc45691">
+					<from>policy/rpId</from>
+					<to>parameters[0]/rpId</to>
+				</link>
+				<link id="8c499835f6264fd3b70cbd80aab26f6d">
+					<from>credential/signCount</from>
+					<to>parameters[0]/previousCount</to>
+				</link>
+				<link id="d0c7a90326844948907e994031cd95b1">
+					<from>credential/backupEligible</from>
+					<to>parameters[0]/backupEligible</to>
+				</link>
+			</invoke>
+			<link id="1c699fde62544cd2837b3075735a1ba6">
+				<from>resultUpdated/rowCount</from>
+				<to>updatedRows</to>
+			</link>
+		</map>
+		<throw id="5fa55bfd43cc47388bac940261819bad"
+			label="updatedRows != 1"
+			message="WebAuthn credential changed during authentication"/>
+	</sequence>
+	<map id="f1ec7ec1f2f445e8896b292addcdb2f0">
+		<link id="92d84d0d90864b968ba0e21b0d9adbee">
+			<from>ceremony/ownerId</from>
+			<to>output/ownerId</to>
+		</link>
+		<link id="51cb9745067b485893fe0e2d5a8f93b5">
+			<from>user/alias</from>
+			<to>output/userAlias</to>
+		</link>
+		<link id="a324396d039a4902ab062d6cd714c495">
+			<from>user/realm</from>
+			<to>output/userRealm</to>
+		</link>
+	</map>
+</sequence>

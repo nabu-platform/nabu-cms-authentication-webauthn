@@ -1,0 +1,26 @@
+<structure name="pipeline">
+	<structure name="input">
+		<field name="alias" type="java.lang.String"/>
+		<field name="realm" type="java.lang.String"/>
+		<field name="applicationId" type="java.lang.String"/>
+		<field name="ceremonyId" type="java.util.UUID"/>
+		<field name="credentialId" type="java.lang.String"/>
+		<field name="responseJson" type="java.lang.String"/>
+	</structure>
+	<structure name="output">
+		<field name="ownerId" type="java.util.UUID"/>
+		<field name="userAlias" type="java.lang.String"/>
+		<field name="userRealm" type="java.lang.String"/>
+	</structure>
+	<field name="contextId" type="java.lang.String"/>
+	<field name="now" type="java.util.Date"/>
+	<structure definition="nabu.cms.authentication.webauthn.crud.ceremony.types.output" name="ceremony"/>
+	<structure definition="nabu.cms.authentication.webauthn.configuration.policy" name="policy"/>
+	<structure definition="nabu.cms.authentication.webauthn.crud.credential.types.output" name="credential"/>
+	<structure definition="nabu.utils.types.WebAuthnResult" name="verified"/>
+	<structure definition="nabu.cms.core.types.emodel.core.User" name="user"/>
+	<field maxOccurs="unbounded" minOccurs="0" name="realms" type="java.lang.String"/>
+	<field name="canLogin" type="java.lang.Boolean"/>
+	<field name="consumedRows" type="java.lang.Long"/>
+	<field name="updatedRows" type="java.lang.Long"/>
+</structure>

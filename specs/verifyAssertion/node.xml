@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<node artifactManager="be.nabu.eai.module.services.iface.ServiceInterfaceManager" created="2026-10-29T15:18:49.158+01:00" lastModified="2026-10-30T12:22:59.244+01:00" leaf="true" version="12">
+    <environmentId>ares</environmentId>
+    <hidden>false</hidden>
+    <locked>false</locked>
+    <properties/>
+    <references>nabu.cms.authentication.webauthn.configuration.policy</references>
+    <references>nabu.cms.authentication.webauthn.database.types.ceremony</references>
+    <references>nabu.cms.authentication.webauthn.database.types.credential</references>
+    <references>java.lang.String</references>
+    <references>java.lang.Boolean</references>
+    <references>nabu.utils.types.WebAuthnRequest</references>
+    <references>java.lang.Boolean</references>
+    <references>java.lang.Long</references>
+</node>
