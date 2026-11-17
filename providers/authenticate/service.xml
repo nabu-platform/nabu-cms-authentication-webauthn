@@ -1,4 +1,7 @@
-<sequence id="f56c1c7abf624d84a9fd6b7dac16ed4d">
+<sequence id="00f4997da08a42a89ff5d59d8c9612c4">
+	<throw id="10ff1efc22d04895910cd19096b694db"
+		label="true"
+		message="WebAuthn verifier request binding is unavailable"/>
 	<throw id="b14dbf3370944317948766293020d878"
 		label="input/credentials == null || input/credentials/type != &quot;webauthn&quot; || input/credentials/name == null || input/credentials/password == null || input/realm == null"
 		message="Invalid WebAuthn credentials"/>

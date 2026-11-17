@@ -1,4 +1,7 @@
-<sequence id="506ef336f70841f4af4c3512846b4bb8">
+<sequence id="d6df8fcf516b42429026e7bc122a0abc">
+	<throw id="89f092774a274bf2936d4d4127944a17"
+		label="true"
+		message="WebAuthn verifier request binding is unavailable"/>
 	<map id="f7a4ddca7fdb433f9835bd0f58c3b4d6">
 		<invoke id="f07e3282cf6743449c3ca9d022468028"
 			resultName="resultPolicy"
@@ -88,44 +91,44 @@
 	<throw id="0df5b0bff569497591370fc6f218b553"
 		label="input/password != null &amp;&amp; input/password != null &amp;&amp; input/password != null &amp;&amp; proofValid != true"
 		message="Fresh password verification is required for registration"/>
-	<map id="8688c5c95d824e52ad4382c6f4f9a1eb">
-		<invoke id="6a27dd4ee8e44daab20a92a942547280"
+	<map id="3503e55a021949098fb4810cac5aaf01">
+		<invoke id="54136079ce334808ba3d057d44814f9a"
 			resultName="resultNow"
 			serviceId="nabu.utils.Date.now"
 			x="25"
 			y="25">
 		</invoke>
-		<link id="643d61fdc6274e94b4cf9afae59dd776">
+		<link id="0bd8f6368423428b9e2c85d98d117aee">
 			<from>resultNow/date</from>
 			<to>now</to>
 		</link>
 	</map>
-	<map id="3503e55a021949098fb4810cac5aaf01">
-		<invoke id="35d6d7529678451db518aaed1e1c8813"
+	<map id="8688c5c95d824e52ad4382c6f4f9a1eb">
+		<invoke id="b5344354e5e444d7b848dafdaf270d29"
 			resultName="resultCeremonies"
 			serviceId="nabu.cms.authentication.webauthn.crud.ceremony.services.list"
 			x="25"
 			y="25">
-			<link id="125c3bbe11d049d0ab6112f6fe723d24">
+			<link id="7d2e57f465634bb4a3be6fa646daba93">
 				<from>input/ceremonyId</from>
 				<to>filter/id[0]</to>
 			</link>
-			<link id="89770f533dba43d3818dc304c006d1df">
+			<link id="30f960785ad64170a18afa40a727817b">
 				<from>contextId</from>
 				<to>filter/contextId[0]</to>
 			</link>
-			<link id="12d0583f8fb74a97a96ebcfb7207bb92"
+			<link id="128cd1de2fde4088bf16a11d3b1faf44"
 				fixedValue="true">
 				<from>true</from>
 				<to>filter/unused</to>
 			</link>
-			<link id="da7935e52177490092a4de5b212b1684"
+			<link id="c7731ee7ef0042f086c12e60b31c5dea"
 				fixedValue="true">
 				<from>false</from>
 				<to>limitToUser</to>
 			</link>
 		</invoke>
-		<link id="bdf657836b3d4551a5559bc6fb31032c">
+		<link id="36fbc310ee47495bb2d54a97c77b2aa3">
 			<from>resultCeremonies/results[0]</from>
 			<to>ceremony</to>
 		</link>
@@ -250,9 +253,28 @@
 			<to>verified</to>
 		</link>
 	</map>
-	<throw id="475344fdc8e04d1aa8ec8ade91f2afd9"
-		label="verified == null || verified/credentialId == null || verified/publicKey == null || ceremony/userHandle == null"
+	<throw id="784d26fe7c7b4668925212f7e1c02692"
+		label="verified == null || verified/valid != true || verified/credentialId == null || verified/publicKey == null || verified/publicKeyFormat != &quot;SPKI&quot; || (verified/algorithm != &quot;ES256&quot; &amp;&amp; verified/algorithm != &quot;RS256&quot;) || ceremony/userHandle == null"
 		message="Invalid WebAuthn registration"/>
+	<map id="38719054065c438fa6ef81bd9d4c5ca1"
+		label="verified/algorithm == &quot;ES256&quot;">
+		<link id="c1ec22bda9b94a699c0db082c3cd4b00"
+			fixedValue="true">
+			<from>-7</from>
+			<to>credentialAlgorithm</to>
+		</link>
+	</map>
+	<map id="e93292425dde495f8ea119378d719efd"
+		label="verified/algorithm == &quot;RS256&quot;">
+		<link id="dcecd00d948f41a8ab5ac8ec71444ff4"
+			fixedValue="true">
+			<from>-257</from>
+			<to>credentialAlgorithm</to>
+		</link>
+	</map>
+	<throw id="307397d599a54a3795b13e23d1a88606"
+		label="credentialAlgorithm == null"
+		message="Unsupported WebAuthn credential algorithm"/>
 	<map id="f24427a995674fa097ec8340c412daea">
 		<invoke id="8f511c079c2f448e9b8472919f9c02a4"
 			resultName="resultId"
@@ -337,9 +359,8 @@
 					<from>verified/publicKey</from>
 					<to>instance/publicKeySpki</to>
 				</link>
-				<link id="1d57448b213e4c6d83c9955c801288fd"
-					fixedValue="true">
-					<from>-7</from>
+				<link id="d4463d82e45d4f49ac8460baaad200ef">
+					<from>credentialAlgorithm</from>
 					<to>instance/algorithm</to>
 				</link>
 				<link id="426286c97a8d472fad92a5b3cfed5677">

@@ -21,6 +21,7 @@
 	<structure definition="nabu.cms.core.types.emodel.core.User" name="active"/>
 	<field name="canLogin" type="java.lang.Boolean"/>
 	<structure definition="nabu.utils.types.WebAuthnResult" name="verified"/>
+	<field name="credentialAlgorithm" type="java.lang.Integer"/>
 	<field name="id" type="java.util.UUID"/>
 	<field name="consumedRows" type="java.lang.Long"/>
 	<structure definition="nabu.cms.authentication.webauthn.crud.credential.types.createOutput" name="created"/>

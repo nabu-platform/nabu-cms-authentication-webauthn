@@ -11,6 +11,6 @@
 	<field name="realm" type="java.lang.String"/>
 	<field comment="Requested login alias, validated against current account eligibility at finish." name="authenticationId" type="java.lang.String"/>
 	<field name="created" timezone="UTC" type="java.util.Date"/>
-	<field name="expires" timezone="UTC" type="java.util.Date"/>
+	<field indexed="true" name="expires" timezone="UTC" type="java.util.Date"/>
 	<field minOccurs="0" name="consumed" timezone="UTC" type="java.util.Date"/>
 </structure>

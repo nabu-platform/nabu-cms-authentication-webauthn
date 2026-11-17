@@ -14,5 +14,10 @@
 		<field minOccurs="0" name="signCount" type="java.lang.Long"/>
 		<field minOccurs="0" name="backupEligible" type="java.lang.Boolean"/>
 		<field minOccurs="0" name="backupState" type="java.lang.Boolean"/>
+		<field comment="Mirror Java result.valid; only true permits atomic ceremony consume and credential insert." name="valid" type="java.lang.Boolean"/>
+		<field comment="INVALID_RESPONSE or VERIFICATION_FAILED on invalid verdict; null on success." minOccurs="0" name="reason" type="java.lang.String"/>
+		<field comment="Unpadded base64url SPKI, only on success." minOccurs="0" name="publicKey" type="java.lang.String"/>
+		<field comment="SPKI on successful registration." minOccurs="0" name="publicKeyFormat" type="java.lang.String"/>
+		<field comment="ES256 or RS256, derived from validated key." minOccurs="0" name="algorithm" type="java.lang.String"/>
 	</structure>
 </structure>

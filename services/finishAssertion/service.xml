@@ -1,4 +1,7 @@
-<sequence id="bbeae2aced204c63852059035754e3ea">
+<sequence id="e995b9616f554eb2b3e20f185f2a73d3">
+	<throw id="9d9ec566acb241c4a127f7c63bf81951"
+		label="true"
+		message="WebAuthn verifier request binding is unavailable"/>
 	<map id="7f9a63ab4f784a47978cfb30174e3e80">
 		<invoke id="c6200beb429b4cc1a22ddeae56afae04"
 			resultName="resultContext"
@@ -22,43 +25,43 @@
 		label="input/alias == null || input/realm == null || input/applicationId == null || input/ceremonyId == null || input/credentialId == null || input/responseJson == null"
 		message="Invalid WebAuthn assertion"/>
 	<map id="d4e547668a554d5fb773efe903a858d0">
-		<invoke id="9ba480dce1ab4d3ab751d4218273828e"
+		<invoke id="71e7e5ce21e2479f98a3ad5492f112c8"
 			resultName="resultNow"
 			serviceId="nabu.utils.Date.now"
 			x="25"
 			y="25">
 		</invoke>
-		<link id="f5556985ff9f4856bccaa64c2d56fe8d">
+		<link id="136e0a7da74744e989a585c6ef6cf9f0">
 			<from>resultNow/date</from>
 			<to>now</to>
 		</link>
 	</map>
 	<map id="952b9c34eb2c424ba9631e3a072fd1bb">
-		<invoke id="51fc0e65191b4767ad113df13a529d66"
+		<invoke id="2a8929eea74547a389028b2f8c18c444"
 			resultName="resultCeremonies"
 			serviceId="nabu.cms.authentication.webauthn.crud.ceremony.services.list"
 			x="25"
 			y="25">
-			<link id="87aed36868a143259e113b849c246f5e">
+			<link id="6c37764c89c7406291d55cd2b9efb60d">
 				<from>input/ceremonyId</from>
 				<to>filter/id[0]</to>
 			</link>
-			<link id="bc6280ae7bf64a758b3a70a5997891c7">
+			<link id="6e37a71e09964966b2bbe651521c380e">
 				<from>contextId</from>
 				<to>filter/contextId[0]</to>
 			</link>
-			<link id="cdfc9ca5129d4b2593e4ce3b8f3c00ca"
+			<link id="fccbc2d279ea4d659af3cef649ab1e87"
 				fixedValue="true">
 				<from>true</from>
 				<to>filter/unused</to>
 			</link>
-			<link id="fde4ff4a65e946de8026eb77e5c19a1b"
+			<link id="dfbf3a07a23c471db3649367c62f1f6a"
 				fixedValue="true">
 				<from>false</from>
 				<to>limitToUser</to>
 			</link>
 		</invoke>
-		<link id="b83f3d0aa048436c8b00249ffb9b275b">
+		<link id="4b78d8bf5729427d85592d93250b1e89">
 			<from>resultCeremonies/results[0]</from>
 			<to>ceremony</to>
 		</link>
@@ -126,8 +129,8 @@
 			<to>credential</to>
 		</link>
 	</map>
-	<throw id="3f23a792d4754cea88c67cdcdde96365"
-		label="credential == null || credential/algorithm != -7"
+	<throw id="da9599b00f1e4d128e5f19c21ba26505"
+		label="credential == null || (credential/algorithm != -7 &amp;&amp; credential/algorithm != -257)"
 		message="Invalid WebAuthn credential"/>
 	<map id="986e339fb1a8441283f29308c6c069aa">
 		<invoke id="54a396ab29b949dd9eee2eeee1e381e8"
@@ -159,6 +162,11 @@
 				<from>credential/publicKeySpki</from>
 				<to>request/publicKey</to>
 			</link>
+			<link id="a46646fa40754db78fc1999786883c4f"
+				fixedValue="true">
+				<from>SPKI</from>
+				<to>request/publicKeyFormat</to>
+			</link>
 			<link id="d25bd1013bf749c8af1a0a229226faf8">
 				<from>credential/userHandle</from>
 				<to>request/userHandle</to>
@@ -177,46 +185,46 @@
 			<to>verified</to>
 		</link>
 	</map>
-	<throw id="67b92e08911e4242a791fa10cc2b1ca6"
-		label="verified == null || verified/credentialId != credential/credentialId || verified/backupEligible != credential/backupEligible"
+	<throw id="fb3c3039a23c4c369eb614804d67c5ba"
+		label="verified == null || verified/valid != true || verified/credentialId != credential/credentialId || verified/publicKeyFormat != &quot;SPKI&quot; || (credential/algorithm == -7 &amp;&amp; verified/algorithm != &quot;ES256&quot;) || (credential/algorithm == -257 &amp;&amp; verified/algorithm != &quot;RS256&quot;) || verified/backupEligible != credential/backupEligible"
 		message="Invalid WebAuthn assertion"/>
 	<map id="7ba005e347f34947861c13a3afb82956">
-		<invoke id="15acbb1442b4468aa8d3fbe379ded566"
+		<invoke id="2a93de397afb43b48d76efde7bd5192e"
 			resultName="resultRealms"
 			serviceId="nabu.cms.core.v2.services.user.getAllowedRealms"
 			x="25"
 			y="25">
-			<link id="a8b538dd529b48ddbf96764b16b8ff76">
+			<link id="a2d847a1656447e69939fd605f047e04">
 				<from>input/realm</from>
 				<to>realm</to>
 			</link>
 		</invoke>
-		<link id="091c5b54a7b84649a7c0cc065dee21f4">
+		<link id="89f5aa8287424c8aa55787af6db19dd4">
 			<from>resultRealms/realms</from>
 			<to>realms</to>
 		</link>
 	</map>
 	<map id="278881f9d0764b1b97d5307c5c7d8b37">
-		<invoke id="3a4874c318c142afaa67f78dfa95230d"
+		<invoke id="0800392d3c084cce93ffd7e50ae452c9"
 			resultName="resultUsers"
 			serviceId="nabu.cms.core.database.user.selectActiveByAlias2"
 			x="25"
 			y="25">
-			<link id="ac848dbe5c2c42668c6c151908678914">
+			<link id="b400881877a74cbd8fe7351c619312dd">
 				<from>input/alias</from>
 				<to>parameters/alias</to>
 			</link>
-			<link id="f3159a97ccb84b49bd4d4455b99d1c77">
+			<link id="ea7b602af6cd49fc83e79c27e376dc4e">
 				<from>realms</from>
 				<to>parameters/realm</to>
 			</link>
-			<link id="3be87ac628e84129a4f6858c9c4ec11b"
+			<link id="8503cc2c9ba84192a7d00412d7a7753b"
 				fixedValue="true">
 				<from>false</from>
 				<to>parameters/allowUnverified</to>
 			</link>
 		</invoke>
-		<link id="5649ae76c7dc4be383bda0c532204b04">
+		<link id="9e407ca4e0e944c0a3981b9875ad9009">
 			<from>resultUsers/results[0]</from>
 			<to>user</to>
 		</link>
